@@ -91,7 +91,28 @@
                 },
                 {
                     "year": 2025,
-                    "amount": 157800
+                    "month": 1,
+                    "amount": 31560
+                },
+                {
+                    "year": 2025,
+                    "month": 2,
+                    "amount": 31560
+                },
+                {
+                    "year": 2025,
+                    "month": 3,
+                    "amount": 31560
+                },
+                {
+                    "year": 2025,
+                    "month": 4,
+                    "amount": 31560
+                },
+                {
+                    "year": 2025,
+                    "month": 5,
+                    "amount": 31560
                 }
             ],
             "created_at": "2024-08-20T20:41:33Z",
@@ -155,7 +176,8 @@
                 },
                 {
                     "year": 2025,
-                    "hours": 140
+                    "month": 7,
+                    "hours": 20
                 }
             ],
             "created_at": "2024-08-20T20:41:33Z",
