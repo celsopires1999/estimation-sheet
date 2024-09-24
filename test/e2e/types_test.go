@@ -188,6 +188,7 @@ type budgetOutput struct {
 	ApplyInflation    bool                     `json:"apply_inflation"`
 	Amount            float64                  `json:"amount"`
 	BudgetAllocations []budgetAllocationOutput `json:"budget_allocations"`
+	BudgetYearly      []budgetYearlyOututput   `json:"budget_yearly"`
 	CreatedAt         time.Time                `json:"created_at"`
 	UpdatedAt         time.Time                `json:"updated_at"`
 }
@@ -195,6 +196,11 @@ type budgetOutput struct {
 type budgetAllocationOutput struct {
 	Year   int     `json:"year"`
 	Month  int     `json:"month"`
+	Amount float64 `json:"amount"`
+}
+
+type budgetYearlyOututput struct {
+	Year   int     `json:"year"`
 	Amount float64 `json:"amount"`
 }
 
@@ -206,6 +212,7 @@ type workloadOutput struct {
 	Comment             string                     `json:"comment"`
 	Hours               int                        `json:"hours"`
 	WorkloadAllocations []workloadAllocationOutput `json:"workload_allocations"`
+	WorkloadYearly      []workloadYearlyOututput   `json:"workload_yearly"`
 	CreatedAt           time.Time                  `json:"created_at"`
 	UpdatedAt           time.Time                  `json:"updated_at"`
 }
@@ -213,5 +220,10 @@ type workloadOutput struct {
 type workloadAllocationOutput struct {
 	Year  int `json:"year"`
 	Month int `json:"month"`
+	Hours int `json:"hours"`
+}
+
+type workloadYearlyOututput struct {
+	Year  int `json:"year"`
 	Hours int `json:"hours"`
 }

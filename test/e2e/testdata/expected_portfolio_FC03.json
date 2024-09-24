@@ -32,6 +32,12 @@
                     "amount": 430850
                 }
             ],
+            "budget_yearly": [
+                {
+                    "year": 2025,
+                    "amount": 689360
+                }
+            ],
             "created_at": "2024-08-20T20:41:36Z",
             "updated_at": null
         },
@@ -76,6 +82,12 @@
                     "year": 2025,
                     "month": 12,
                     "amount": 31860
+                }
+            ],
+            "budget_yearly": [
+                {
+                    "year": 2025,
+                    "amount": 191160
                 }
             ],
             "created_at": "2024-08-20T20:41:36Z",
@@ -130,6 +142,16 @@
                     "year": 2026,
                     "month": 2,
                     "hours": 20
+                }
+            ],
+            "workload_yearly": [
+                {
+                    "year": 2025,
+                    "hours": 120
+                },
+                {
+                    "year": 2026,
+                    "hours": 40
                 }
             ],
             "created_at": "2024-08-20T20:41:36Z",
