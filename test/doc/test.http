@@ -567,15 +567,3 @@ DELETE http://localhost:9000/api/v1/portfolios/{{ portfolioIdBP }}
 ###
 # @name deletePortfolioFC03
 DELETE http://localhost:9000/api/v1/portfolios/{{ portfolioIdFC03 }}
-
-
-# ###
-# POST http://localhost:3000/events/{{eventId}}/reserve
-# Content-Type: application/json
-# X-Api-Token: 1234
-
-# {
-#   "spots": ["{{ spotName }}"],
-#   "ticket_kind": "full",
-#   "email": "test@test.com"
-# }
