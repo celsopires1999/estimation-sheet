@@ -1,0 +1,48 @@
+### 
+# @name createCompetence
+POST http://localhost:9000/api/v1/competences
+Content-Type: application/json
+
+{
+    "code": "Tech Doc",
+    "name": "Technical Documentation"
+}
+###
+@competenceId = {{ createCompetence.response.body.competence_id }}
+
+### 
+# @name updateCompetence
+PATCH http://localhost:9000/api/v1/competences/{{ competenceId }}
+Content-Type: application/json
+
+{
+    "name": "Technical Documentation - Updated"
+}
+###
+# @name getCompetence
+GET http://localhost:9000/api/v1/competences/{{ competenceId }}
+###
+# @name listCompetences
+GET http://localhost:9000/api/v1/competences
+
+###
+# @name deleteCompetence
+DELETE http://localhost:9000/api/v1/competences/{{ competenceId }}
+
+
+###
+# @name deleteCompetenceError
+DELETE http://localhost:9000/api/v1/competences/58d53714-25eb-45a7-9ba2-992b5068cb31
+
+###
+# @name getCompetenceError
+GET http://localhost:9000/api/v1/competences/58d53714-25eb-45a7-9ba2-992b5068cb31
+
+### 
+# @name updateCompetenceError
+PATCH http://localhost:9000/api/v1/competences/58d53714-25eb-45a7-9ba2-992b5068cb31
+Content-Type: application/json
+
+{
+    "name": "Technical Documentation - Updated"
+}
