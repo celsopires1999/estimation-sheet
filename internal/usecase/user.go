@@ -113,7 +113,7 @@ func NewDeleteUserUseCase(repo domain.EstimationRepository) *DeleteUserUseCase {
 }
 
 func (uc *DeleteUserUseCase) Execute(ctx context.Context, input DeleteUserInputDTO) (*DeleteUserOutputDTO, error) {
-	err := uc.repository.DeleteCompetence(ctx, input.UserID)
+	err := uc.repository.DeleteUser(ctx, input.UserID)
 	if err != nil {
 		return nil, err
 	}

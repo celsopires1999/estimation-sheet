@@ -1,0 +1,31 @@
+###
+# @name createUser
+POST http://localhost:9000/api/v1/users
+Content-Type: application/json
+
+{
+    "email": "john.doe@userland.com",
+    "user_name": "john1234",
+    "name": "John Doe",
+    "user_type": "manager"
+}
+
+###
+# @name updateUser
+PATCH http://localhost:9000/api/v1/users/{{ createUser.response.body.user_id }}
+Content-Type: application/json
+
+{   
+    "email": "john.doe@userland.com",
+    "user_name": "john1234",
+    "name": "John Doe",
+    "user_type": "estimator"
+}
+
+###
+# @name getUser
+GET http://localhost:9000/api/v1/users/{{ createUser.response.body.user_id }}
+
+###
+# @name deleteUser
+DELETE http://localhost:9000/api/v1/users/{{ createUser.response.body.user_id }}

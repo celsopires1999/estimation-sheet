@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/go:1-1.22-bullseye
+FROM mcr.microsoft.com/devcontainers/go:1-1.23-bullseye
 
 RUN curl -s https://packagecloud.io/install/repositories/golang-migrate/migrate/script.deb.sh | bash 
 RUN apt-get update 

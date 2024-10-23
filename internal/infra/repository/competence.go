@@ -85,11 +85,11 @@ func (r *estimationRepositoryPostgres) UpdateCompetence(ctx context.Context, com
 }
 
 func (r *estimationRepositoryPostgres) DeleteCompetence(ctx context.Context, competenceID string) error {
-	_, err := r.queries.DeleteCompetence(ctx, competenceID)
+	rows, err := r.queries.DeleteCompetence(ctx, competenceID)
+	if rows == 0 {
+		return common.NewNotFoundError(fmt.Errorf("competence with id %s not found", competenceID))
+	}
 	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return common.NewNotFoundError(fmt.Errorf("competence with id %s not found", competenceID))
-		}
 		return err
 	}
 	return nil
