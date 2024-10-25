@@ -26,7 +26,12 @@ func (r *estimationRepositoryPostgres) CreateCompetence(ctx context.Context, com
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
 			if pgErr.Code == "23505" {
-				return common.NewConflictError(fmt.Errorf("competence code %s already exists", competence.Code))
+				if pgErr.ConstraintName == "competences_code_key" {
+					return common.NewConflictError(fmt.Errorf("competence code %s already exists", competence.Code))
+				}
+				if pgErr.ConstraintName == "competences_name_key" {
+					return common.NewConflictError(fmt.Errorf("competence name %s already exists", competence.Name))
+				}
 			}
 			return common.NewConflictError(err)
 		}
@@ -75,7 +80,12 @@ func (r *estimationRepositoryPostgres) UpdateCompetence(ctx context.Context, com
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
 			if pgErr.Code == "23505" {
-				return common.NewConflictError(fmt.Errorf("competence code %s already exists", competence.Code))
+				if pgErr.ConstraintName == "competences_code_key" {
+					return common.NewConflictError(fmt.Errorf("competence code %s already exists", competence.Code))
+				}
+				if pgErr.ConstraintName == "competences_name_key" {
+					return common.NewConflictError(fmt.Errorf("competence name %s already exists", competence.Name))
+				}
 			}
 			return common.NewConflictError(err)
 		}
@@ -86,11 +96,23 @@ func (r *estimationRepositoryPostgres) UpdateCompetence(ctx context.Context, com
 
 func (r *estimationRepositoryPostgres) DeleteCompetence(ctx context.Context, competenceID string) error {
 	rows, err := r.queries.DeleteCompetence(ctx, competenceID)
+
+	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) {
+			if pgErr.Code == "23503" {
+				if pgErr.ConstraintName == "efforts_competence_id_fkey" {
+					return common.NewConflictError(fmt.Errorf("cannot delete competence id %s with efforts", competenceID))
+				}
+				return common.NewConflictError(fmt.Errorf("cannot delete competence id %s with relations: %w", competenceID, err))
+			}
+		}
+		return common.NewConflictError(fmt.Errorf("cannot delete competence id %s: %w", competenceID, err))
+	}
+
 	if rows == 0 {
 		return common.NewNotFoundError(fmt.Errorf("competence with id %s not found", competenceID))
 	}
-	if err != nil {
-		return err
-	}
+
 	return nil
 }
