@@ -112,6 +112,15 @@ func (h *usersHandler) deleteUser(w http.ResponseWriter, r *http.Request) {
 
 func (h *usersHandler) listUsers(w http.ResponseWriter, r *http.Request) {
 	input := service.ListUsersInputDTO{}
+	qs := r.URL.Query()
+
+	input.Name = readString(qs, "name", "")
+	input.Filters.SortSafelist = []string{"name", "created_at", "-name", "-created_at"}
+
+	if err := setFilter(qs, &input.Filters); err != nil {
+		writeBadRequest(w, err.Error())
+	}
+
 	output, err := h.service.ListUsers(r.Context(), input)
 	if err != nil {
 		writeDomainError(w, err)
