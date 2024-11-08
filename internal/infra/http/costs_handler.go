@@ -12,10 +12,16 @@ type costsHandler struct {
 	createCostUseCase *usecase.CreateCostUseCase
 	updateCostUseCase *usecase.UpdateCostUseCase
 	deleteCostUseCase *usecase.DeleteCostUseCase
+	getCostUseCase    *usecase.GetCostUseCase
 }
 
-func newCostsHandler(create *usecase.CreateCostUseCase, update *usecase.UpdateCostUseCase, delete *usecase.DeleteCostUseCase) *costsHandler {
-	return &costsHandler{create, update, delete}
+func newCostsHandler(
+	create *usecase.CreateCostUseCase,
+	update *usecase.UpdateCostUseCase,
+	delete *usecase.DeleteCostUseCase,
+	get *usecase.GetCostUseCase,
+) *costsHandler {
+	return &costsHandler{create, update, delete, get}
 }
 
 func (h *costsHandler) createCost(w http.ResponseWriter, r *http.Request) {
@@ -83,4 +89,18 @@ func (h *costsHandler) deleteCost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSON(w, http.StatusNoContent, output)
+}
+
+func (h *costsHandler) getCost(w http.ResponseWriter, r *http.Request) {
+	input := usecase.GetCostInputDTO{
+		CostID:     r.PathValue("costID"),
+		BaselineID: r.PathValue("baselineID"),
+	}
+	output, err := h.getCostUseCase.Execute(r.Context(), input)
+	if err != nil {
+		writeDomainError(w, err)
+		return
+	}
+
+	writeJSON(w, http.StatusOK, output)
 }

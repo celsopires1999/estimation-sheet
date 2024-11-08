@@ -40,6 +40,7 @@ func Handler(ctx context.Context, dbpool *pgxpool.Pool) *http.ServeMux {
 	createCostUsecase := usecase.NewCreateCostUseCase(txm)
 	updateCostUseCase := usecase.NewUpdateCostUseCase(txm)
 	deleteCostUseCase := usecase.NewDeleteCostUseCase(txm)
+	getCostUseCase := usecase.NewGetCostUseCase(repository)
 	getCostsByBaselineIDUseCase := usecase.NewGetCostsByBaselineIDUseCase(repository)
 
 	createCompetenceUseCase := usecase.NewCreateCompetenceUseCase(repository)
@@ -50,6 +51,7 @@ func Handler(ctx context.Context, dbpool *pgxpool.Pool) *http.ServeMux {
 	createEffortUseCase := usecase.NewCreateEffortUseCase(txm)
 	updateEffortUseCase := usecase.NewUpdateEfforttUseCase(txm)
 	deleteEffortUseCase := usecase.NewDeleteEffortUseCase(txm)
+	getEffortUseCase := usecase.NewGetEffortUseCase(repository)
 	getEffortsByBaselineIDUseCase := usecase.NewGetEffortsByBaselineIDUseCase(repository)
 
 	createPortfolioUseCase := usecase.NewCreatePortfolioUseCase(txm)
@@ -59,9 +61,9 @@ func Handler(ctx context.Context, dbpool *pgxpool.Pool) *http.ServeMux {
 	usersHandler := newUsersHandler(createUserUseCase, updateUserUseCase, getUserUseCase, deleteUserUseCase, service)
 	plansHandler := newPlansHandler(createPlanUseCase, getPlanUseCase, updatePlanUseCase, deletePlanUseCase, service)
 	baselinesHandler := newBaselinesHandler(createBaselineUseCase, updateBaselineUseCase, deleteBaselineUseCase, getCostsByBaselineIDUseCase, getEffortsByBaselineIDUseCase, service)
-	costsHandler := newCostsHandler(createCostUsecase, updateCostUseCase, deleteCostUseCase)
+	costsHandler := newCostsHandler(createCostUsecase, updateCostUseCase, deleteCostUseCase, getCostUseCase)
 	competencesHandler := newCompetencesHandler(createCompetenceUseCase, updateCompetenceUseCase, deleteCompetenceUseCase, getCompetenceUseCase, service)
-	effortsHandler := newEffortsHandler(createEffortUseCase, updateEffortUseCase, deleteEffortUseCase)
+	effortsHandler := newEffortsHandler(createEffortUseCase, updateEffortUseCase, deleteEffortUseCase, getEffortUseCase)
 	portfoliosHandler := newPortfoliosHandler(createPortfolioUseCase, deletePortfolioUseCase, service)
 
 	// Routes
@@ -90,7 +92,9 @@ func Handler(ctx context.Context, dbpool *pgxpool.Pool) *http.ServeMux {
 	r.HandleFunc("GET /baselines/{baselineID}", baselinesHandler.getBaseline)
 	r.HandleFunc("GET /baselines", baselinesHandler.listBaselines)
 	r.HandleFunc("GET /baselines/{baselineID}/costs", baselinesHandler.getCostsByBaselineID)
+	r.HandleFunc("GET /baselines/{baselineID}/costs/{costID}", costsHandler.getCost)
 	r.HandleFunc("GET /baselines/{baselineID}/efforts", baselinesHandler.getEffortsByBaselineID)
+	r.HandleFunc("GET /baselines/{baselineID}/efforts/{effortID}", effortsHandler.getEffort)
 
 	r.HandleFunc("POST /baselines/{baselineID}/costs", costsHandler.createCost)
 	r.HandleFunc("PATCH /baselines/{baselineID}/costs/{costID}", costsHandler.updateCost)

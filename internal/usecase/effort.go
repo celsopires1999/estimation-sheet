@@ -149,7 +149,7 @@ func (uc *UpdateEffortUseCase) Execute(ctx context.Context, input UpdateEffortIn
 		}
 
 		if effort.BaselineID != input.BaselineID {
-			return ErrEffortBaselineMismatch
+			return common.NewConflictError(ErrEffortBaselineMismatch)
 		}
 
 		count, err := repository.CountPortfoliosByBaselineId(ctx, input.BaselineID)
@@ -229,7 +229,7 @@ func (uc *DeleteEffortUseCase) Execute(ctx context.Context, input DeleteEffortIn
 		}
 
 		if effort.BaselineID != input.BaselineID {
-			return ErrEffortBaselineMismatch
+			return common.NewConflictError(ErrEffortBaselineMismatch)
 		}
 
 		count, err := repository.CountPortfoliosByBaselineId(ctx, input.BaselineID)
@@ -289,4 +289,36 @@ func (uc *GetEffortsByBaselineIDUseCase) Execute(ctx context.Context, input GetE
 	}
 
 	return &GetEffortsByBaselineIDOutputDTO{Efforts: output}, nil
+}
+
+type GetEffortUseCase struct {
+	repository domain.EstimationRepository
+}
+
+type GetEffortInputDTO struct {
+	EffortID   string `json:"effort_id" validate:"required,uuid4"`
+	BaselineID string `json:"baseline_id" validate:"required,uuid4"`
+}
+
+type GetEffortOutputDTO struct {
+	mapper.EffortOutput
+}
+
+func NewGetEffortUseCase(repository domain.EstimationRepository) *GetEffortUseCase {
+	return &GetEffortUseCase{repository}
+}
+
+func (uc *GetEffortUseCase) Execute(ctx context.Context, input GetEffortInputDTO) (*GetEffortOutputDTO, error) {
+	effort, err := uc.repository.GetEffort(ctx, input.EffortID)
+	if err != nil {
+		return nil, err
+	}
+
+	if effort.BaselineID != input.BaselineID {
+		return nil, common.NewConflictError(ErrEffortBaselineMismatch)
+	}
+
+	output := mapper.EffortOutputFromDomain(*effort)
+
+	return &GetEffortOutputDTO{output}, nil
 }

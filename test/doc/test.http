@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ###
 # @name listUsersWithFilters
-GET http://localhost:9000/api/v1/users?name=%doe%&sort=-created_at&page=2&page_size=2
+GET http://localhost:9000/api/v1/users?name=%doe%&sort=-created_at&page=1&page_size=1
 
 ###
 # @name listUsers
@@ -192,6 +192,15 @@ Content-Type: application/json
 }
 
 ###
+# @name getCost
+GET http://localhost:9000/api/v1/baselines/{{ baselineId }}/costs/{{ createCostPO.response.body.cost_id }}
+
+###
+# @name getCostWithError
+GET http://localhost:9000/api/v1/baselines/09691122-e80f-4f65-9d27-4eebcdc3c8e9/costs/{{ createCostPO.response.body.cost_id }}
+
+
+###
 # @name getCostsByBaselineId
 GET http://localhost:9000/api/v1/baselines/{{ baselineId }}/costs
 
@@ -283,9 +292,21 @@ Content-Type: application/json
     "comment": "considerado Simone e Regina na atividade"
 }
 
+###
+# @name getEffort
+GET http://localhost:9000/api/v1/baselines/{{ baselineId }}/efforts/{{ effortId }}
+
+###
+# @name getEffortWithError
+GET http://localhost:9000/api/v1/baselines/5f8d85de-4fb2-498a-b189-3e1706130549/efforts/{{ effortId }}
+
 ### 
 # @name listEfforts
 GET http://localhost:9000/api/v1/baselines/{{ baselineId }}/efforts
+
+###
+# @name deleteEffortWithError
+DELETE http://localhost:9000/api/v1/baselines/5f8d85de-4fb2-498a-b189-3e1706130549/efforts/{{ effortId }}
 
 ###
 # @name deleteEffort

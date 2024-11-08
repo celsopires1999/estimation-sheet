@@ -164,7 +164,7 @@ func (uc *UpdateCostUseCase) Execute(ctx context.Context, input UpdateCostInputD
 		}
 
 		if cost.BaselineID != input.BaselineID {
-			return ErrCostBaselineMismatch
+			return common.NewConflictError(ErrCostBaselineMismatch)
 		}
 
 		count, err := repository.CountPortfoliosByBaselineId(ctx, input.BaselineID)
@@ -252,7 +252,7 @@ func (uc *DeleteCostUseCase) Execute(ctx context.Context, input DeleteCostInputD
 		}
 
 		if cost.BaselineID != input.BaselineID {
-			return ErrCostBaselineMismatch
+			return common.NewConflictError(ErrCostBaselineMismatch)
 		}
 
 		count, err := repository.CountPortfoliosByBaselineId(ctx, input.BaselineID)
@@ -312,4 +312,38 @@ func (uc *GetCostsByBaselineIDUseCase) Execute(ctx context.Context, input GetCos
 	}
 
 	return &GetCostsByBaselineIDOutputDTO{Costs: output}, nil
+}
+
+// GetCostUseCase represents the use case for getting a cost by its ID
+type GetCostUseCase struct {
+	repository domain.EstimationRepository
+}
+
+type GetCostInputDTO struct {
+	CostID     string `json:"cost_id" validate:"required,uuid4"`
+	BaselineID string `json:"baseline_id" validate:"required,uuid4"`
+}
+
+type GetCostOutputDTO struct {
+	mapper.CostOutput
+}
+
+func NewGetCostUseCase(repository domain.EstimationRepository) *GetCostUseCase {
+	return &GetCostUseCase{repository}
+}
+
+func (uc *GetCostUseCase) Execute(ctx context.Context, input GetCostInputDTO) (*GetCostOutputDTO, error) {
+	cost, err := uc.repository.GetCost(ctx, input.CostID)
+	if err != nil {
+		return nil, err
+	}
+
+	if cost.BaselineID != input.BaselineID {
+		return nil, common.NewConflictError(ErrCostBaselineMismatch)
+
+	}
+
+	output := mapper.CostOutputFromDomain(*cost)
+
+	return &GetCostOutputDTO{output}, nil
 }

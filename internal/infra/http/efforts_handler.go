@@ -12,10 +12,16 @@ type effortsHandler struct {
 	createEffortUseCase *usecase.CreateEffortUseCase
 	updateEffortUseCase *usecase.UpdateEffortUseCase
 	deleteEffortUseCase *usecase.DeleteEffortUseCase
+	getEffortUseCase    *usecase.GetEffortUseCase
 }
 
-func newEffortsHandler(create *usecase.CreateEffortUseCase, update *usecase.UpdateEffortUseCase, delete *usecase.DeleteEffortUseCase) *effortsHandler {
-	return &effortsHandler{create, update, delete}
+func newEffortsHandler(
+	create *usecase.CreateEffortUseCase,
+	update *usecase.UpdateEffortUseCase,
+	delete *usecase.DeleteEffortUseCase,
+	get *usecase.GetEffortUseCase,
+) *effortsHandler {
+	return &effortsHandler{create, update, delete, get}
 }
 
 func (h *effortsHandler) createEffort(w http.ResponseWriter, r *http.Request) {
@@ -83,4 +89,18 @@ func (h *effortsHandler) deleteEffort(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSON(w, http.StatusNoContent, output)
+}
+
+func (h *effortsHandler) getEffort(w http.ResponseWriter, r *http.Request) {
+	input := usecase.GetEffortInputDTO{
+		EffortID:   r.PathValue("effortID"),
+		BaselineID: r.PathValue("baselineID"),
+	}
+	output, err := h.getEffortUseCase.Execute(r.Context(), input)
+	if err != nil {
+		writeDomainError(w, err)
+		return
+	}
+
+	writeJSON(w, http.StatusOK, output)
 }
