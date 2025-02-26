@@ -38,4 +38,4 @@ PORT=9000
 DB_CONNECTION=postgres://test:test@db:5432/test?sslmode=disable&search_path=estimation
 
 ```
-After that, you can the command `make test-e2e`.
+After that, you can run the command `make test-e2e`.

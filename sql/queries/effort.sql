@@ -44,7 +44,20 @@ WHERE
 DELETE FROM efforts WHERE effort_id = $1;
 
 -- name: FindEffortById :one
-SELECT * FROM efforts WHERE effort_id = $1;
+SELECT
+    e.effort_id AS effort_id,
+    e.baseline_id AS baseline_id,
+    e.competence_id AS competence_id,
+    c.code AS competence_code,
+    c.name AS competence_name,
+    e.comment AS comment,
+    e.hours AS hours,
+    e.created_at AS created_at,
+    e.updated_at AS updated_at
+FROM efforts AS e
+    INNER JOIN competences AS c ON e.competence_id = c.competence_id
+WHERE
+    e.effort_id = $1;
 
 -- name: FindEffortsByBaselineIdWithRelations :many
 SELECT

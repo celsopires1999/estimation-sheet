@@ -457,13 +457,16 @@ Content-Length: 456
 ```json
 HTTP/1.1 201 Created
 Content-Type: application/json
-Date: Tue, 24 Sep 2024 00:53:34 GMT
-Content-Length: 576
+Date: Wed, 26 Feb 2025 02:09:59 GMT
+Content-Length: 649
+Connection: close
 
 {
-  "effort_id": "4b425d2c-73d2-4d08-b136-f90388a7443c",
-  "baseline_id": "1941a226-4f1f-450f-8831-ea3e74b480c1",
-  "competence_id": "5506b538-0fd9-4d61-b58f-8ad68fd1070d",
+  "effort_id": "2b3c485a-eccf-41ab-8538-9aaca68d97a6",
+  "baseline_id": "612ecf4d-9342-4fbd-a5fe-15f7a9814950",
+  "competence_id": "bdb9f625-80de-4698-b51c-389bed7954f5",
+  "competence_code": "Tech Doc",
+  "competence_name": "Technical Documentation",
   "comment": "considerado a Simone na atividade",
   "hours": 160,
   "effort_allocations": [
@@ -508,7 +511,7 @@ Content-Length: 576
       "hours": 20
     }
   ],
-  "created_at": "2024-09-24T00:53:34Z",
+  "created_at": "2025-02-26T02:09:59Z",
   "updated_at": null
 }
 ```
@@ -516,13 +519,16 @@ Content-Length: 576
 ```json
 HTTP/1.1 200 OK
 Content-Type: application/json
-Date: Tue, 24 Sep 2024 00:54:00 GMT
-Content-Length: 601
+Date: Wed, 26 Feb 2025 02:12:47 GMT
+Content-Length: 674
+Connection: close
 
 {
-  "effort_id": "4b425d2c-73d2-4d08-b136-f90388a7443c",
-  "baseline_id": "1941a226-4f1f-450f-8831-ea3e74b480c1",
-  "competence_id": "5506b538-0fd9-4d61-b58f-8ad68fd1070d",
+  "effort_id": "2b3c485a-eccf-41ab-8538-9aaca68d97a6",
+  "baseline_id": "612ecf4d-9342-4fbd-a5fe-15f7a9814950",
+  "competence_id": "bdb9f625-80de-4698-b51c-389bed7954f5",
+  "competence_code": "Tech Doc",
+  "competence_name": "Technical Documentation",
   "comment": "considerado Simone e Regina na atividade",
   "hours": 160,
   "effort_allocations": [
@@ -567,23 +573,88 @@ Content-Length: 601
       "hours": 20
     }
   ],
-  "created_at": "2024-09-24T00:53:34Z",
-  "updated_at": "2024-09-24T00:54:00Z"
+  "created_at": "2025-02-26T02:09:59Z",
+  "updated_at": "2025-02-26T02:12:47Z"
+}
+```
+### getEffort
+```json
+HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Wed, 26 Feb 2025 02:13:23 GMT
+Content-Length: 674
+Connection: close
+
+{
+  "effort_id": "2b3c485a-eccf-41ab-8538-9aaca68d97a6",
+  "baseline_id": "612ecf4d-9342-4fbd-a5fe-15f7a9814950",
+  "competence_id": "bdb9f625-80de-4698-b51c-389bed7954f5",
+  "competence_code": "Tech Doc",
+  "competence_name": "Technical Documentation",
+  "comment": "considerado Simone e Regina na atividade",
+  "hours": 160,
+  "effort_allocations": [
+    {
+      "year": 2024,
+      "month": 1,
+      "hours": 20
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "hours": 20
+    },
+    {
+      "year": 2024,
+      "month": 3,
+      "hours": 20
+    },
+    {
+      "year": 2024,
+      "month": 4,
+      "hours": 20
+    },
+    {
+      "year": 2024,
+      "month": 5,
+      "hours": 20
+    },
+    {
+      "year": 2024,
+      "month": 6,
+      "hours": 20
+    },
+    {
+      "year": 2024,
+      "month": 7,
+      "hours": 20
+    },
+    {
+      "year": 2024,
+      "month": 8,
+      "hours": 20
+    }
+  ],
+  "created_at": "2025-02-26T02:09:59Z",
+  "updated_at": "2025-02-26T02:12:47Z"
 }
 ```
 ### listEfforts
 ```json
 HTTP/1.1 200 OK
 Content-Type: application/json
-Date: Tue, 24 Sep 2024 00:54:22 GMT
-Content-Length: 615
+Date: Wed, 26 Feb 2025 02:16:03 GMT
+Content-Length: 688
+Connection: close
 
 {
   "efforts": [
     {
-      "effort_id": "4b425d2c-73d2-4d08-b136-f90388a7443c",
-      "baseline_id": "1941a226-4f1f-450f-8831-ea3e74b480c1",
-      "competence_id": "5506b538-0fd9-4d61-b58f-8ad68fd1070d",
+      "effort_id": "2b3c485a-eccf-41ab-8538-9aaca68d97a6",
+      "baseline_id": "612ecf4d-9342-4fbd-a5fe-15f7a9814950",
+      "competence_id": "bdb9f625-80de-4698-b51c-389bed7954f5",
+      "competence_code": "Tech Doc",
+      "competence_name": "Technical Documentation",
       "comment": "considerado Simone e Regina na atividade",
       "hours": 160,
       "effort_allocations": [
@@ -628,8 +699,8 @@ Content-Length: 615
           "hours": 20
         }
       ],
-      "created_at": "2024-09-24T00:53:34Z",
-      "updated_at": "2024-09-24T00:54:00Z"
+      "created_at": "2025-02-26T02:09:59Z",
+      "updated_at": "2025-02-26T02:12:47Z"
     }
   ]
 }

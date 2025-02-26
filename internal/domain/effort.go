@@ -13,6 +13,8 @@ type Effort struct {
 	EffortID          string             `validate:"required,uuid"`
 	BaselineID        string             `validate:"required,uuid"`
 	CompetenceID      string             `validate:"required,uuid"`
+	CompetenceCode    string             `validate:"-"`
+	CompetenceName    string             `validate:"-"`
 	Comment           string             `validate:"-"`
 	Hours             int                `validate:"required,gte=1"`
 	EffortAllocations []EffortAllocation `validate:"required"`
@@ -80,6 +82,8 @@ func RestoreEffort(props RestoreEffortProps) *Effort {
 		EffortID:          props.EffortID,
 		BaselineID:        props.BaselineID,
 		CompetenceID:      props.CompetenceID,
+		CompetenceCode:    props.CompetenceCode,
+		CompetenceName:    props.CompetenceName,
 		Comment:           props.Comment,
 		Hours:             props.Hours,
 		EffortAllocations: props.EffortAllocations,

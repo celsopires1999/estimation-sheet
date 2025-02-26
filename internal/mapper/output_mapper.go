@@ -290,6 +290,8 @@ type EffortOutput struct {
 	EffortID          string                   `json:"effort_id"`
 	BaselineID        string                   `json:"baseline_id"`
 	CompetenceID      string                   `json:"competence_id"`
+	CompetenceCode    string                   `json:"competence_code"`
+	CompetenceName    string                   `json:"competence_name"`
 	Comment           string                   `json:"comment"`
 	Hours             int                      `json:"hours"`
 	EffortAllocations []effortAllocationOutput `json:"effort_allocations"`
@@ -312,6 +314,8 @@ func EffortOutputFromDomain(effort domain.Effort) EffortOutput {
 		EffortID:          effort.EffortID,
 		BaselineID:        effort.BaselineID,
 		CompetenceID:      effort.CompetenceID,
+		CompetenceCode:    effort.CompetenceCode,
+		CompetenceName:    effort.CompetenceName,
 		Comment:           effort.Comment,
 		Hours:             effort.Hours,
 		EffortAllocations: allocs,
