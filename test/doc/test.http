@@ -553,7 +553,7 @@ GET http://localhost:9000/api/v1/portfolios?planID={{ planIdFC03 }}
 
 ###
 # @name listPortfoliosBP
-GET http://localhost:9000/api/v1/portfolios?planID={{ planIdBP }}
+GET http://localhost:9000/api/v1/portfolios?baselineID={{ baselineId }}
 
 ###
 # @name getPortfolioBP

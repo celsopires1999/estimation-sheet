@@ -349,6 +349,7 @@ func (o EffortOutput) MarshalJSON() ([]byte, error) {
 
 type PortfolioOutput struct {
 	PortfolioID string           `json:"portfolio_id"`
+	BaselineID  string           `json:"baseline_id"`
 	Code        string           `json:"code"`
 	Review      int32            `json:"review"`
 	PlanCode    string           `json:"plan_code"`
@@ -367,6 +368,7 @@ type PortfolioOutput struct {
 func PortfolioOutputFromDb(p db.PortfolioRow) PortfolioOutput {
 	return PortfolioOutput{
 		PortfolioID: p.PortfolioID,
+		BaselineID:  p.BaselineID,
 		PlanCode:    p.PlanCode,
 		Code:        p.Code,
 		Review:      p.Review,

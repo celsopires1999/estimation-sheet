@@ -46,4 +46,5 @@ DELETE http://localhost:9000/api/portfolios/{portfolioID}
 GET http://localhost:9000/api/portfolios/{portfolioID}
 GET http://localhost:9000/api/portfolios
 GET http://localhost:9000/api/portfolios?planID={planID}
+GET http://localhost:9000/api/portfolios?baselineID={baselineID}
 ```

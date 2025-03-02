@@ -77,7 +77,7 @@ type GetPortfolioOutputDTO struct {
 	mapper.PortfolioOutput
 }
 
-func (s *EstimationService) ListPortfoliosByPlanID(ctx context.Context, input ListPortfoliosInputDTO) (*ListPortfoliosOutputDTO, error) {
+func (s *EstimationService) ListPortfoliosByPlanID(ctx context.Context, input ListPortfoliosByPlanIDInputDTO) (*ListPortfoliosOutputDTO, error) {
 	portfolios, err := s.queries.FindAllPortfoliosByPlanIdWithRelations(ctx, input.PlanID)
 	if err != nil {
 		return nil, err
@@ -87,6 +87,35 @@ func (s *EstimationService) ListPortfoliosByPlanID(ctx context.Context, input Li
 	for i, portfolio := range portfolios {
 		portfoliosOutput[i] = mapper.PortfolioOutput{
 			PortfolioID: portfolio.PortfolioID,
+			BaselineID:  portfolio.BaselineID,
+			PlanCode:    portfolio.PlanCode,
+			Code:        portfolio.Code,
+			Review:      portfolio.Review,
+			Title:       portfolio.Title,
+			Description: portfolio.Description.String,
+			StartDate:   portfolio.StartDate.Time,
+			Duration:    portfolio.Duration,
+			Manager:     portfolio.Manager,
+			Estimator:   portfolio.Estimator,
+			CreatedAt:   portfolio.CreatedAt.Time,
+			UpdatedAt:   portfolio.UpdatedAt.Time,
+		}
+	}
+
+	return &ListPortfoliosOutputDTO{portfoliosOutput}, nil
+}
+
+func (s *EstimationService) ListPortfoliosByBaselineID(ctx context.Context, input ListPortfoliosByBaselineIDInputDTO) (*ListPortfoliosOutputDTO, error) {
+	portfolios, err := s.queries.FindAllPortfoliosByBaselineIdWithRelations(ctx, input.BaselineID)
+	if err != nil {
+		return nil, err
+	}
+
+	portfoliosOutput := make([]mapper.PortfolioOutput, len(portfolios))
+	for i, portfolio := range portfolios {
+		portfoliosOutput[i] = mapper.PortfolioOutput{
+			PortfolioID: portfolio.PortfolioID,
+			BaselineID:  portfolio.BaselineID,
 			PlanCode:    portfolio.PlanCode,
 			Code:        portfolio.Code,
 			Review:      portfolio.Review,
@@ -118,8 +147,12 @@ func (s *EstimationService) ListAllPortfolios(ctx context.Context) (*ListPortfol
 	return &ListPortfoliosOutputDTO{portfoliosOutput}, nil
 }
 
-type ListPortfoliosInputDTO struct {
+type ListPortfoliosByPlanIDInputDTO struct {
 	PlanID string `json:"plan_id"`
+}
+
+type ListPortfoliosByBaselineIDInputDTO struct {
+	BaselineID string `json:"baseline_id"`
 }
 
 type ListPortfoliosOutputDTO struct {

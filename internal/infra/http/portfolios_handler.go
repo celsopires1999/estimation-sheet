@@ -83,18 +83,47 @@ func (h *portfoliosHandler) listPortfolios(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	h.listPortfoliosByPlanID(w, r)
+	planID := query.Get("planID")
+	if planID != "" {
+		h.listPortfoliosByPlanID(w, r)
+		return
+	}
+
+	baselineID := query.Get("baselineID")
+	if baselineID != "" {
+		h.listPortfoliosByBaselineID(w, r)
+		return
+	}
+
+	h.listAllPortfolios(w, r)
 }
 
 func (h *portfoliosHandler) listPortfoliosByPlanID(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	planID := query.Get("planID")
 
-	input := service.ListPortfoliosInputDTO{
+	input := service.ListPortfoliosByPlanIDInputDTO{
 		PlanID: planID,
 	}
 
 	output, err := h.service.ListPortfoliosByPlanID(r.Context(), input)
+	if err != nil {
+		writeDomainError(w, err)
+		return
+	}
+
+	writeJSON(w, http.StatusOK, output)
+}
+
+func (h *portfoliosHandler) listPortfoliosByBaselineID(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	baselineID := query.Get("baselineID")
+
+	input := service.ListPortfoliosByBaselineIDInputDTO{
+		BaselineID: baselineID,
+	}
+
+	output, err := h.service.ListPortfoliosByBaselineID(r.Context(), input)
 	if err != nil {
 		writeDomainError(w, err)
 		return
