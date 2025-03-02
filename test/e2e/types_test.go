@@ -161,6 +161,7 @@ type portfolioIDOutput struct {
 
 type portfolioOutput struct {
 	PortfolioID string           `json:"portfolio_id"`
+	BaselineID  string           `json:"baseline_id"`
 	Code        string           `json:"code"`
 	Review      int32            `json:"review"`
 	PlanCode    string           `json:"plan_code"`

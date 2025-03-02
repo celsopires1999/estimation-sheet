@@ -723,12 +723,12 @@ func (s *E2EScenarioSuite) getPortfolioBP() {
 	expected := expectedPortfolio("testdata/expected_portfolio_BP.json")
 
 	if !cmp.Equal(expected, output,
-		cmpopts.IgnoreFields(portfolioOutput{}, "PortfolioID", "CreatedAt", "UpdatedAt"),
+		cmpopts.IgnoreFields(portfolioOutput{}, "PortfolioID", "BaselineID", "CreatedAt", "UpdatedAt"),
 		cmpopts.IgnoreFields(budgetOutput{}, "BudgetID", "PortfolioID", "CreatedAt", "UpdatedAt"),
 		cmpopts.IgnoreFields(workloadOutput{}, "WorkloadID", "PortfolioID", "CreatedAt", "UpdatedAt"),
 	) {
 		s.T().Logf("%s", cmp.Diff(expected, output,
-			cmpopts.IgnoreFields(portfolioOutput{}, "PortfolioID", "CreatedAt", "UpdatedAt"),
+			cmpopts.IgnoreFields(portfolioOutput{}, "PortfolioID", "BaselineID", "CreatedAt", "UpdatedAt"),
 			cmpopts.IgnoreFields(budgetOutput{}, "BudgetID", "PortfolioID", "CreatedAt", "UpdatedAt"),
 			cmpopts.IgnoreFields(workloadOutput{}, "WorkloadID", "PortfolioID", "CreatedAt", "UpdatedAt"),
 		))
@@ -779,12 +779,12 @@ func (s *E2EScenarioSuite) getPortfolioFC03() {
 	expected := expectedPortfolio("testdata/expected_portfolio_FC03.json")
 
 	if !cmp.Equal(expected, output,
-		cmpopts.IgnoreFields(portfolioOutput{}, "PortfolioID", "CreatedAt", "UpdatedAt"),
+		cmpopts.IgnoreFields(portfolioOutput{}, "PortfolioID", "BaselineID", "CreatedAt", "UpdatedAt"),
 		cmpopts.IgnoreFields(budgetOutput{}, "BudgetID", "PortfolioID", "CreatedAt", "UpdatedAt"),
 		cmpopts.IgnoreFields(workloadOutput{}, "WorkloadID", "PortfolioID", "CreatedAt", "UpdatedAt"),
 	) {
 		s.T().Logf("%s", cmp.Diff(expected, output,
-			cmpopts.IgnoreFields(portfolioOutput{}, "PortfolioID", "CreatedAt", "UpdatedAt"),
+			cmpopts.IgnoreFields(portfolioOutput{}, "PortfolioID", "BaselineID", "CreatedAt", "UpdatedAt"),
 			cmpopts.IgnoreFields(budgetOutput{}, "BudgetID", "PortfolioID", "CreatedAt", "UpdatedAt"),
 			cmpopts.IgnoreFields(workloadOutput{}, "WorkloadID", "PortfolioID", "CreatedAt", "UpdatedAt"),
 		))
