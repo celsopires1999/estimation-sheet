@@ -17,7 +17,8 @@ type CreatePlanUseCase struct {
 }
 
 type CreatePlanInputDTO struct {
-	Code        string             `json:"code" validate:"required,max=10"`
+	PlanType    string             `json:"plan_type" validate:"required,oneof=preliminary definitive" errmsg:"Plan type must be one of: preliminary, definitive"`
+	Code        string             `json:"code" validate:"required,max=15"`
 	Name        string             `json:"name" validate:"required,max=50"`
 	Assumptions domain.Assumptions `json:"assumptions" validate:"required,dive"`
 }
@@ -31,7 +32,7 @@ func NewCreatePlanUseCase(repo domain.EstimationRepository) *CreatePlanUseCase {
 }
 
 func (uc *CreatePlanUseCase) Execute(ctx context.Context, input CreatePlanInputDTO) (*CreatePlanOutputDTO, error) {
-	plan := domain.NewPlan(input.Code, input.Name, input.Assumptions)
+	plan := domain.NewPlan(domain.PlanType(input.PlanType), input.Code, input.Name, input.Assumptions)
 	if err := plan.Validate(); err != nil {
 		return nil, err
 	}
@@ -41,7 +42,8 @@ func (uc *CreatePlanUseCase) Execute(ctx context.Context, input CreatePlanInputD
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
 			if pgErr.Code == "23505" {
-				return nil, common.NewConflictError(fmt.Errorf("plan with code %s already exists", input.Code))
+				return nil, common.NewConflictError(fmt.Errorf("plan type %s with code %s already exists", input.PlanType, input.Code))
+
 			}
 			return nil, common.NewConflictError(err)
 		}
@@ -94,7 +96,8 @@ type UpdatePlanUseCase struct {
 
 type UpdatePlanInputDTO struct {
 	PlanID      string              `json:"plan_id" validate:"required,uuid4"`
-	Code        *string             `json:"code" validate:"omitempty,max=10"`
+	PlanType    *string             `json:"plan_type" validate:"omitempty,oneof=preliminary definitive" errmsg:"Plan type must be one of: preliminary, definitive"`
+	Code        *string             `json:"code" validate:"omitempty,max=15"`
 	Name        *string             `json:"name" validate:"omitempty,max=50"`
 	Assumptions *domain.Assumptions `json:"assumptions" validate:"omitempty,required,dive"`
 }

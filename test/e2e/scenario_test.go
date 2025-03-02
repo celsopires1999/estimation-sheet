@@ -480,8 +480,9 @@ func (s *E2EScenarioSuite) postPlanBP() {
 	c := http.Client{}
 
 	input := planInput{
-		Code: "BP 2025",
-		Name: "Business Plan",
+		PlanType: "definitive",
+		Code:     "BP 2025",
+		Name:     "Business Plan",
 		Assumptions: domain.Assumptions{
 			domain.Assumption{
 				Year:      2024,
@@ -559,8 +560,9 @@ func (s *E2EScenarioSuite) postPlanFC03() {
 	c := http.Client{}
 
 	input := planInput{
-		Code: "FC 03 2025",
-		Name: "Forecast 03 2025",
+		PlanType: "preliminary",
+		Code:     "FC 03 2025",
+		Name:     "Forecast 03 2025",
 		Assumptions: domain.Assumptions{
 			domain.Assumption{
 				Year:      2024,

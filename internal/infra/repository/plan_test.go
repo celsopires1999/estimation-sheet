@@ -71,6 +71,7 @@ func (s *PlanRepositoryTestSuite) TestIntegrationCreatePlan() {
 				return err
 			}
 			s.Equal(plan.PlanID, createdPlan.PlanID)
+			s.Equal(plan.PlanType, createdPlan.PlanType)
 			s.Equal(plan.Code, createdPlan.Code)
 			s.Equal(plan.Name, createdPlan.Name)
 			s.Equal(plan.Assumptions, createdPlan.Assumptions)

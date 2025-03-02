@@ -17,6 +17,7 @@ import (
 func (r *estimationRepositoryPostgres) CreatePlan(ctx context.Context, plan *domain.Plan) error {
 	err := r.queries.InsertPlan(ctx, db.InsertPlanParams{
 		PlanID:      plan.PlanID,
+		PlanType:    plan.PlanType.String(),
 		Code:        plan.Code,
 		Name:        plan.Name,
 		Assumptions: plan.Assumptions,
@@ -27,7 +28,7 @@ func (r *estimationRepositoryPostgres) CreatePlan(ctx context.Context, plan *dom
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
 			if pgErr.Code == "23505" {
-				return common.NewConflictError(fmt.Errorf("plan code %s already exists", plan.Code))
+				return common.NewConflictError(fmt.Errorf("plan type %s with code %s already exists", plan.PlanType, plan.Code))
 			}
 			return common.NewConflictError(err)
 		}
@@ -47,6 +48,7 @@ func (r *estimationRepositoryPostgres) GetPlan(ctx context.Context, planID strin
 
 	props := domain.RestorePlanProps{
 		PlanID:      planModel.PlanID,
+		PlanType:    domain.PlanType(planModel.PlanType),
 		Code:        planModel.Code,
 		Name:        planModel.Name,
 		Assumptions: planModel.Assumptions,
@@ -65,6 +67,7 @@ func (r *estimationRepositoryPostgres) GetPlan(ctx context.Context, planID strin
 func (r *estimationRepositoryPostgres) UpdatePlan(ctx context.Context, plan *domain.Plan) error {
 	_, err := r.queries.UpdatePlan(ctx, db.UpdatePlanParams{
 		PlanID:      plan.PlanID,
+		PlanType:    plan.PlanType.String(),
 		Code:        plan.Code,
 		Name:        plan.Name,
 		Assumptions: plan.Assumptions,
@@ -78,7 +81,7 @@ func (r *estimationRepositoryPostgres) UpdatePlan(ctx context.Context, plan *dom
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
 			if pgErr.Code == "23505" {
-				return common.NewConflictError(fmt.Errorf("plan code %s already exists", plan.Code))
+				return common.NewConflictError(fmt.Errorf("plan type %s with code %s already exists", plan.PlanType, plan.Code))
 			}
 			return common.NewConflictError(err)
 		}

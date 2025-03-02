@@ -88,6 +88,7 @@ func (s *EstimationService) ListPortfoliosByPlanID(ctx context.Context, input Li
 		portfoliosOutput[i] = mapper.PortfolioOutput{
 			PortfolioID: portfolio.PortfolioID,
 			BaselineID:  portfolio.BaselineID,
+			PlanType:    portfolio.PlanType,
 			PlanCode:    portfolio.PlanCode,
 			Code:        portfolio.Code,
 			Review:      portfolio.Review,
@@ -116,6 +117,7 @@ func (s *EstimationService) ListPortfoliosByBaselineID(ctx context.Context, inpu
 		portfoliosOutput[i] = mapper.PortfolioOutput{
 			PortfolioID: portfolio.PortfolioID,
 			BaselineID:  portfolio.BaselineID,
+			PlanType:    portfolio.PlanType,
 			PlanCode:    portfolio.PlanCode,
 			Code:        portfolio.Code,
 			Review:      portfolio.Review,

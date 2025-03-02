@@ -13,7 +13,8 @@ import (
 
 type Plan struct {
 	PlanID      string      `validate:"required,uuid4"`
-	Code        string      `validate:"required,max=10"`
+	PlanType    PlanType    `validate:"required"`
+	Code        string      `validate:"required,max=15"`
 	Name        string      `validate:"required,max=50"`
 	Assumptions Assumptions `validate:"required,dive"`
 	CreatedAt   time.Time   `validate:"-"`
@@ -43,12 +44,14 @@ var (
 )
 
 func NewPlan(
+	planType PlanType,
 	code string,
 	name string,
 	assumptions Assumptions,
 ) *Plan {
 	plan := &Plan{
 		PlanID:      uuid.NewString(),
+		PlanType:    planType,
 		Code:        code,
 		Name:        name,
 		Assumptions: assumptions,
@@ -61,6 +64,7 @@ func NewPlan(
 func RestorePlan(props RestorePlanProps) *Plan {
 	plan := &Plan{
 		PlanID:      props.PlanID,
+		PlanType:    props.PlanType,
 		Code:        props.Code,
 		Name:        props.Name,
 		Assumptions: props.Assumptions,
@@ -69,6 +73,13 @@ func RestorePlan(props RestorePlanProps) *Plan {
 	}
 	plan.sortAssumptions()
 	return plan
+}
+
+func (p *Plan) ChangePlanType(planTypeStr *string) {
+	if planTypeStr == nil {
+		return
+	}
+	p.PlanType = PlanType(*planTypeStr)
 }
 
 func (p *Plan) ChangeCode(code string) {
@@ -158,3 +169,14 @@ func (p *Plan) GetExchange() *exchange {
 
 	return NewExchange(rates)
 }
+
+type PlanType string
+
+func (pt PlanType) String() string {
+	return string(pt)
+}
+
+const (
+	Preliminary PlanType = "preliminary"
+	Definitive  PlanType = "definitive"
+)

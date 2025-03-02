@@ -93,6 +93,7 @@ type EffortAllocation struct {
 
 type Plan struct {
 	PlanID      string
+	PlanType    string
 	Code        string
 	Name        string
 	Assumptions domain.Assumptions

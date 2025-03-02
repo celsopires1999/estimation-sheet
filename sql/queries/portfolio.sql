@@ -44,6 +44,7 @@ LIMIT 1;
 SELECT
     pf.portfolio_id AS portfolio_id,
     bl.baseline_id AS baseline_id,
+    pl.plan_type AS plan_type,
     pl.code AS plan_code,
     bl.code AS code,
     bl.review AS review,
@@ -68,6 +69,7 @@ WHERE
 SELECT
     pf.portfolio_id AS portfolio_id,
     bl.baseline_id AS baseline_id,
+    pl.plan_type AS plan_type,
     pl.code AS plan_code,
     bl.code AS code,
     bl.review AS review,
@@ -93,6 +95,7 @@ ORDER BY bl.code, pl.code ASC;
 SELECT
     pf.portfolio_id AS portfolio_id,
     bl.baseline_id AS baseline_id,
+    pl.plan_type AS plan_type,
     pl.code AS plan_code,
     bl.code AS code,
     bl.review AS review,
@@ -118,6 +121,7 @@ ORDER BY pl.code ASC;
 SELECT
     pf.portfolio_id AS portfolio_id,
     bl.baseline_id AS baseline_id,
+    pl.plan_type AS plan_type,
     pl.code AS plan_code,
     bl.code AS code,
     bl.review AS review,

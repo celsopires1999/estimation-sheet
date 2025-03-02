@@ -13,7 +13,7 @@ import (
 )
 
 const deletePlan = `-- name: DeletePlan :one
-DELETE FROM plans WHERE plan_id = $1 RETURNING plan_id, code, name, assumptions, created_at, updated_at
+DELETE FROM plans WHERE plan_id = $1 RETURNING plan_id, plan_type, code, name, assumptions, created_at, updated_at
 `
 
 func (q *Queries) DeletePlan(ctx context.Context, planID string) (Plan, error) {
@@ -21,6 +21,7 @@ func (q *Queries) DeletePlan(ctx context.Context, planID string) (Plan, error) {
 	var i Plan
 	err := row.Scan(
 		&i.PlanID,
+		&i.PlanType,
 		&i.Code,
 		&i.Name,
 		&i.Assumptions,
@@ -31,7 +32,7 @@ func (q *Queries) DeletePlan(ctx context.Context, planID string) (Plan, error) {
 }
 
 const findAllPlans = `-- name: FindAllPlans :many
-SELECT plan_id, code, name, assumptions, created_at, updated_at FROM plans ORDER BY code ASC
+SELECT plan_id, plan_type, code, name, assumptions, created_at, updated_at FROM plans ORDER BY code ASC
 `
 
 func (q *Queries) FindAllPlans(ctx context.Context) ([]Plan, error) {
@@ -45,6 +46,7 @@ func (q *Queries) FindAllPlans(ctx context.Context) ([]Plan, error) {
 		var i Plan
 		if err := rows.Scan(
 			&i.PlanID,
+			&i.PlanType,
 			&i.Code,
 			&i.Name,
 			&i.Assumptions,
@@ -62,7 +64,7 @@ func (q *Queries) FindAllPlans(ctx context.Context) ([]Plan, error) {
 }
 
 const findPlanByCode = `-- name: FindPlanByCode :one
-SELECT plan_id, code, name, assumptions, created_at, updated_at FROM plans WHERE code = $1
+SELECT plan_id, plan_type, code, name, assumptions, created_at, updated_at FROM plans WHERE code = $1
 `
 
 func (q *Queries) FindPlanByCode(ctx context.Context, code string) (Plan, error) {
@@ -70,6 +72,7 @@ func (q *Queries) FindPlanByCode(ctx context.Context, code string) (Plan, error)
 	var i Plan
 	err := row.Scan(
 		&i.PlanID,
+		&i.PlanType,
 		&i.Code,
 		&i.Name,
 		&i.Assumptions,
@@ -80,7 +83,7 @@ func (q *Queries) FindPlanByCode(ctx context.Context, code string) (Plan, error)
 }
 
 const findPlanById = `-- name: FindPlanById :one
-SELECT plan_id, code, name, assumptions, created_at, updated_at FROM plans WHERE plan_id = $1
+SELECT plan_id, plan_type, code, name, assumptions, created_at, updated_at FROM plans WHERE plan_id = $1
 `
 
 func (q *Queries) FindPlanById(ctx context.Context, planID string) (Plan, error) {
@@ -88,6 +91,7 @@ func (q *Queries) FindPlanById(ctx context.Context, planID string) (Plan, error)
 	var i Plan
 	err := row.Scan(
 		&i.PlanID,
+		&i.PlanType,
 		&i.Code,
 		&i.Name,
 		&i.Assumptions,
@@ -101,16 +105,18 @@ const insertPlan = `-- name: InsertPlan :exec
 INSERT INTO
     plans (
         plan_id,
+        plan_type,
         code,
         name,
         assumptions,
         created_at
     )
-VALUES ($1, $2, $3, $4, $5)
+VALUES ($1, $2, $3, $4, $5, $6)
 `
 
 type InsertPlanParams struct {
 	PlanID      string
+	PlanType    string
 	Code        string
 	Name        string
 	Assumptions domain.Assumptions
@@ -120,6 +126,7 @@ type InsertPlanParams struct {
 func (q *Queries) InsertPlan(ctx context.Context, arg InsertPlanParams) error {
 	_, err := q.db.Exec(ctx, insertPlan,
 		arg.PlanID,
+		arg.PlanType,
 		arg.Code,
 		arg.Name,
 		arg.Assumptions,
@@ -131,18 +138,20 @@ func (q *Queries) InsertPlan(ctx context.Context, arg InsertPlanParams) error {
 const updatePlan = `-- name: UpdatePlan :one
 UPDATE plans
 SET
-    code = $2,
-    name = $3,
-    assumptions = $4,
-    updated_at = $5
+    plan_type = $2,
+    code = $3,
+    name = $4,
+    assumptions = $5,
+    updated_at = $6
 WHERE
     plan_id = $1
 RETURNING
-    plan_id, code, name, assumptions, created_at, updated_at
+    plan_id, plan_type, code, name, assumptions, created_at, updated_at
 `
 
 type UpdatePlanParams struct {
 	PlanID      string
+	PlanType    string
 	Code        string
 	Name        string
 	Assumptions domain.Assumptions
@@ -152,6 +161,7 @@ type UpdatePlanParams struct {
 func (q *Queries) UpdatePlan(ctx context.Context, arg UpdatePlanParams) (Plan, error) {
 	row := q.db.QueryRow(ctx, updatePlan,
 		arg.PlanID,
+		arg.PlanType,
 		arg.Code,
 		arg.Name,
 		arg.Assumptions,
@@ -160,6 +170,7 @@ func (q *Queries) UpdatePlan(ctx context.Context, arg UpdatePlanParams) (Plan, e
 	var i Plan
 	err := row.Scan(
 		&i.PlanID,
+		&i.PlanType,
 		&i.Code,
 		&i.Name,
 		&i.Assumptions,

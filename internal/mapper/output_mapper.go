@@ -61,6 +61,7 @@ func (o UserOutput) MarshalJSON() ([]byte, error) {
 
 type PlanOutput struct {
 	PlanID      string             `json:"plan_id"`
+	PlanType    string             `json:"plan_type"`
 	Code        string             `json:"code"`
 	Name        string             `json:"name"`
 	Assumptions domain.Assumptions `json:"assumptions,omitempty"`
@@ -71,6 +72,7 @@ type PlanOutput struct {
 func PlanOutputFromDomain(plan domain.Plan) PlanOutput {
 	return PlanOutput{
 		PlanID:      plan.PlanID,
+		PlanType:    plan.PlanType.String(),
 		Code:        plan.Code,
 		Name:        plan.Name,
 		Assumptions: plan.Assumptions,
@@ -82,6 +84,7 @@ func PlanOutputFromDomain(plan domain.Plan) PlanOutput {
 func PlanOutputFromDb(plan db.Plan) PlanOutput {
 	return PlanOutput{
 		PlanID:      plan.PlanID,
+		PlanType:    plan.PlanType,
 		Code:        plan.Code,
 		Name:        plan.Name,
 		Assumptions: plan.Assumptions,
@@ -352,6 +355,7 @@ type PortfolioOutput struct {
 	BaselineID  string           `json:"baseline_id"`
 	Code        string           `json:"code"`
 	Review      int32            `json:"review"`
+	PlanType    string           `json:"plan_type"`
 	PlanCode    string           `json:"plan_code"`
 	Title       string           `json:"title"`
 	Description string           `json:"description"`
@@ -369,6 +373,7 @@ func PortfolioOutputFromDb(p db.PortfolioRow) PortfolioOutput {
 	return PortfolioOutput{
 		PortfolioID: p.PortfolioID,
 		BaselineID:  p.BaselineID,
+		PlanType:    p.PlanType,
 		PlanCode:    p.PlanCode,
 		Code:        p.Code,
 		Review:      p.Review,

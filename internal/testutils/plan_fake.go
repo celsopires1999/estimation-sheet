@@ -8,6 +8,7 @@ import (
 )
 
 type PlanFakeBuilder struct {
+	PlanType    domain.PlanType
 	Code        string
 	Name        string
 	assumptions domain.Assumptions
@@ -86,6 +87,7 @@ func NewPlanFakeBuilder() *PlanFakeBuilder {
 	}
 
 	return &PlanFakeBuilder{
+		PlanType:    domain.Preliminary,
 		Code:        "BP 2026",
 		Name:        "Business Plan 2026",
 		assumptions: assumptions,
@@ -97,6 +99,7 @@ func NewPlanFakeBuilder() *PlanFakeBuilder {
 func (b *PlanFakeBuilder) Build() *domain.Plan {
 	plan := &domain.Plan{
 		PlanID:      uuid.New().String(),
+		PlanType:    b.PlanType,
 		Code:        b.Code,
 		Name:        b.Name,
 		Assumptions: b.assumptions,

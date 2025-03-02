@@ -135,6 +135,7 @@ type costAllocationOutput struct {
 }
 
 type planInput struct {
+	PlanType    string             `json:"plan_type"`
 	Code        string             `json:"code"`
 	Name        string             `json:"name"`
 	Assumptions domain.Assumptions `json:"assumptions"`
@@ -142,6 +143,7 @@ type planInput struct {
 
 type planOutput struct {
 	PlanID      string             `json:"plan_id"`
+	PlanType    string             `json:"plan_type"`
 	Code        string             `json:"code"`
 	Name        string             `json:"name"`
 	Assumptions domain.Assumptions `json:"assumptions,omitempty"`
@@ -164,6 +166,7 @@ type portfolioOutput struct {
 	BaselineID  string           `json:"baseline_id"`
 	Code        string           `json:"code"`
 	Review      int32            `json:"review"`
+	PlanType    string           `json:"plan_type"`
 	PlanCode    string           `json:"plan_code"`
 	Title       string           `json:"title"`
 	Description string           `json:"description"`

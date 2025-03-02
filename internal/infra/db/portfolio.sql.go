@@ -55,6 +55,7 @@ const findAllPortfoliosByBaselineIdWithRelations = `-- name: FindAllPortfoliosBy
 SELECT
     pf.portfolio_id AS portfolio_id,
     bl.baseline_id AS baseline_id,
+    pl.plan_type AS plan_type,
     pl.code AS plan_code,
     bl.code AS code,
     bl.review AS review,
@@ -80,6 +81,7 @@ ORDER BY pl.code ASC
 type FindAllPortfoliosByBaselineIdWithRelationsRow struct {
 	PortfolioID string
 	BaselineID  string
+	PlanType    string
 	PlanCode    string
 	Code        string
 	Review      int32
@@ -105,6 +107,7 @@ func (q *Queries) FindAllPortfoliosByBaselineIdWithRelations(ctx context.Context
 		if err := rows.Scan(
 			&i.PortfolioID,
 			&i.BaselineID,
+			&i.PlanType,
 			&i.PlanCode,
 			&i.Code,
 			&i.Review,
@@ -131,6 +134,7 @@ const findAllPortfoliosByPlanIdWithRelations = `-- name: FindAllPortfoliosByPlan
 SELECT
     pf.portfolio_id AS portfolio_id,
     bl.baseline_id AS baseline_id,
+    pl.plan_type AS plan_type,
     pl.code AS plan_code,
     bl.code AS code,
     bl.review AS review,
@@ -156,6 +160,7 @@ ORDER BY bl.code, pl.code ASC
 type FindAllPortfoliosByPlanIdWithRelationsRow struct {
 	PortfolioID string
 	BaselineID  string
+	PlanType    string
 	PlanCode    string
 	Code        string
 	Review      int32
@@ -181,6 +186,7 @@ func (q *Queries) FindAllPortfoliosByPlanIdWithRelations(ctx context.Context, pl
 		if err := rows.Scan(
 			&i.PortfolioID,
 			&i.BaselineID,
+			&i.PlanType,
 			&i.PlanCode,
 			&i.Code,
 			&i.Review,
@@ -207,6 +213,7 @@ const findAllPortfoliosWithRelations = `-- name: FindAllPortfoliosWithRelations 
 SELECT
     pf.portfolio_id AS portfolio_id,
     bl.baseline_id AS baseline_id,
+    pl.plan_type AS plan_type,
     pl.code AS plan_code,
     bl.code AS code,
     bl.review AS review,
@@ -230,6 +237,7 @@ ORDER BY bl.code ASC, bl.review DESC, pl.code ASC
 type FindAllPortfoliosWithRelationsRow struct {
 	PortfolioID string
 	BaselineID  string
+	PlanType    string
 	PlanCode    string
 	Code        string
 	Review      int32
@@ -255,6 +263,7 @@ func (q *Queries) FindAllPortfoliosWithRelations(ctx context.Context) ([]FindAll
 		if err := rows.Scan(
 			&i.PortfolioID,
 			&i.BaselineID,
+			&i.PlanType,
 			&i.PlanCode,
 			&i.Code,
 			&i.Review,
@@ -299,6 +308,7 @@ const findPortfolioByIdWithRelations = `-- name: FindPortfolioByIdWithRelations 
 SELECT
     pf.portfolio_id AS portfolio_id,
     bl.baseline_id AS baseline_id,
+    pl.plan_type AS plan_type,
     pl.code AS plan_code,
     bl.code AS code,
     bl.review AS review,
@@ -323,6 +333,7 @@ WHERE
 type FindPortfolioByIdWithRelationsRow struct {
 	PortfolioID string
 	BaselineID  string
+	PlanType    string
 	PlanCode    string
 	Code        string
 	Review      int32
@@ -342,6 +353,7 @@ func (q *Queries) FindPortfolioByIdWithRelations(ctx context.Context, portfolioI
 	err := row.Scan(
 		&i.PortfolioID,
 		&i.BaselineID,
+		&i.PlanType,
 		&i.PlanCode,
 		&i.Code,
 		&i.Review,

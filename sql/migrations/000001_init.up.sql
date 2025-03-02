@@ -83,11 +83,13 @@ CREATE TABLE IF NOT EXISTS effort_allocations (
 
 CREATE TABLE IF NOT EXISTS plans (
     plan_id VARCHAR(36) PRIMARY KEY,
-    code VARCHAR(10) NOT NULL UNIQUE,
+    plan_type VARCHAR(15) NOT NULL,
+    code VARCHAR(15) NOT NULL,
     name VARCHAR(50) NOT NULL,
     assumptions JSONB NOT NULL,
     created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP
+    updated_at TIMESTAMP,
+    UNIQUE (plan_type, code)
 );
 
 CREATE TABLE IF NOT EXISTS portfolios (

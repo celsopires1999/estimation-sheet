@@ -47,6 +47,7 @@ type WorkloadRow struct {
 type PortfolioRow struct {
 	PortfolioID string
 	BaselineID  string
+	PlanType    string
 	PlanCode    string
 	Code        string
 	Review      int32

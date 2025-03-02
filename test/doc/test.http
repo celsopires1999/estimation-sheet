@@ -318,6 +318,7 @@ POST http://localhost:9000/api/v1/plans
 Content-Type: application/json
 
 {
+    "plan_type": "definitive",
     "code": "BP 2025",
     "name": "Business Plan 2025",
     "assumptions": [
@@ -386,6 +387,7 @@ POST http://localhost:9000/api/v1/plans
 Content-Type: application/json
 
 {
+    "plan_type": "preliminary",
     "code": "FC 03 2025",
     "name": "Forecast 03 2025",
     "assumptions": [

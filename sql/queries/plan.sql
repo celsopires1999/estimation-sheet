@@ -2,12 +2,13 @@
 INSERT INTO
     plans (
         plan_id,
+        plan_type,
         code,
         name,
         assumptions,
         created_at
     )
-VALUES ($1, $2, $3, $4, $5);
+VALUES ($1, $2, $3, $4, $5, $6);
 
 -- name: FindPlanById :one
 SELECT * FROM plans WHERE plan_id = $1;
@@ -21,10 +22,11 @@ SELECT * FROM plans ORDER BY code ASC;
 -- name: UpdatePlan :one
 UPDATE plans
 SET
-    code = $2,
-    name = $3,
-    assumptions = $4,
-    updated_at = $5
+    plan_type = $2,
+    code = $3,
+    name = $4,
+    assumptions = $5,
+    updated_at = $6
 WHERE
     plan_id = $1
 RETURNING
