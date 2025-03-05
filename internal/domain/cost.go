@@ -19,6 +19,7 @@ const (
 	OneTimeCost CostType = "one_time"
 	RunningCost CostType = "running"
 	Investment  CostType = "investment"
+	NonTech     CostType = "non_tech"
 )
 
 type Cost struct {

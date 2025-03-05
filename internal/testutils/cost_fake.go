@@ -27,7 +27,7 @@ func NewCostFakeBuilder() *CostFakeBuilder {
 	return &CostFakeBuilder{
 		CostID:         uuid.New().String(),
 		BaselineID:     uuid.New().String(),
-		CostType:       domain.CostType(randomdata.StringSample("one_time", "running", "investment")),
+		CostType:       domain.CostType(randomdata.StringSample("one_time", "running", "investment", "non_tech")),
 		Description:    randomdata.Paragraph(),
 		Comment:        randomdata.SillyName(),
 		Amount:         100.0,

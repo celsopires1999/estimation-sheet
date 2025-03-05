@@ -23,7 +23,7 @@ type CreateCostUseCase struct {
 
 type CreateCostInputDTO struct {
 	BaselineID      string                `json:"baseline_id" validate:"required,uuid4"`
-	CostType        string                `json:"cost_type" validate:"required,oneof=one_time running investment" errmsg:"Cost type must be one of: one_time, running, investment"`
+	CostType        string                `json:"cost_type" validate:"required,oneof=one_time running investment non_tech" errmsg:"Cost type must be one of: one_time, running, investment or non_tech"`
 	Description     string                `json:"description" validate:"required"`
 	Comment         string                `json:"comment" validate:"-"`
 	Amount          float64               `json:"amount" validate:"required,twodecimals"`
@@ -129,7 +129,7 @@ type UpdateCostUseCase struct {
 type UpdateCostInputDTO struct {
 	CostID          string                 `json:"cost_id" validate:"required,uuid4"`
 	BaselineID      string                 `json:"baseline_id" validate:"required,uuid4"`
-	CostType        *string                `json:"cost_type" validate:"omitempty,required,oneof=one_time running investment" errmsg:"Cost type must be one of: one_time, running, investment"`
+	CostType        *string                `json:"cost_type" validate:"omitempty,required,oneof=one_time running investment non_tech" errmsg:"Cost type must be one of: one_time, running, investment or non_tech"`
 	Description     *string                `json:"description" validate:"omitempty,required"`
 	Comment         *string                `json:"comment" validate:"omitempty"`
 	Amount          *float64               `json:"amount" validate:"omitempty,required,twodecimals"`
