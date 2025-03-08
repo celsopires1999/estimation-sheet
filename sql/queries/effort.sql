@@ -113,3 +113,9 @@ FROM effort_allocations
 WHERE
     effort_id = $1
 ORDER BY allocation_date ASC;
+
+-- name: DeleteEffortAllocationsByBaselineId :execrows
+DELETE FROM effort_allocations WHERE effort_id IN (SELECT effort_id FROM efforts WHERE baseline_id = $1);
+
+-- name: DeleteEffortsByBaselineId :execrows
+DELETE FROM efforts WHERE baseline_id = $1;

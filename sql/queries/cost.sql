@@ -116,3 +116,9 @@ FROM cost_allocations
 WHERE
     cost_id = $1
 ORDER BY allocation_date ASC;
+
+-- name: DeteleCostAllocationsByBaselineId :execrows
+DELETE FROM cost_allocations WHERE cost_id IN (SELECT cost_id FROM costs WHERE baseline_id = $1);
+
+-- name: DeleteCostsByBaselineId :execrows
+DELETE FROM costs WHERE baseline_id = $1;

@@ -113,6 +113,30 @@ func (q *Queries) DeleteEffortAllocations(ctx context.Context, effortID string) 
 	return result.RowsAffected(), nil
 }
 
+const deleteEffortAllocationsByBaselineId = `-- name: DeleteEffortAllocationsByBaselineId :execrows
+DELETE FROM effort_allocations WHERE effort_id IN (SELECT effort_id FROM efforts WHERE baseline_id = $1)
+`
+
+func (q *Queries) DeleteEffortAllocationsByBaselineId(ctx context.Context, baselineID string) (int64, error) {
+	result, err := q.db.Exec(ctx, deleteEffortAllocationsByBaselineId, baselineID)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
+
+const deleteEffortsByBaselineId = `-- name: DeleteEffortsByBaselineId :execrows
+DELETE FROM efforts WHERE baseline_id = $1
+`
+
+func (q *Queries) DeleteEffortsByBaselineId(ctx context.Context, baselineID string) (int64, error) {
+	result, err := q.db.Exec(ctx, deleteEffortsByBaselineId, baselineID)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
+
 const findEffortAllocationsByEffortId = `-- name: FindEffortAllocationsByEffortId :many
 SELECT effort_allocation_id, effort_id, allocation_date, hours, created_at, updated_at
 FROM effort_allocations

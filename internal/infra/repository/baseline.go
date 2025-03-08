@@ -89,7 +89,44 @@ func (r *estimationRepositoryPostgres) UpdateBaseline(ctx context.Context, basel
 }
 
 func (r *estimationRepositoryPostgres) DeleteBaseline(ctx context.Context, baselineID string) error {
-	_, err := r.queries.DeleteBaseline(ctx, baselineID)
+
+	_, err := r.queries.FindBaselineById(ctx, baselineID)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return common.NewNotFoundError(errors.New("baseline not found"))
+		}
+		return err
+	}
+
+	count, err := r.queries.CountPortfoliosByBaselineId(ctx, baselineID)
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		return common.NewConflictError(fmt.Errorf("baseline %s has %d portfolio(s)", baselineID, count))
+	}
+
+	_, err = r.queries.DeteleCostAllocationsByBaselineId(ctx, baselineID)
+	if err != nil {
+		return err
+	}
+
+	_, err = r.queries.DeleteCostsByBaselineId(ctx, baselineID)
+	if err != nil {
+		return err
+	}
+
+	_, err = r.queries.DeleteEffortAllocationsByBaselineId(ctx, baselineID)
+	if err != nil {
+		return err
+	}
+
+	_, err = r.queries.DeleteEffortsByBaselineId(ctx, baselineID)
+	if err != nil {
+		return err
+	}
+
+	_, err = r.queries.DeleteBaseline(ctx, baselineID)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return common.NewNotFoundError(errors.New("baseline not found"))

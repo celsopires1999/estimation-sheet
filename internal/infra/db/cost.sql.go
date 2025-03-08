@@ -140,6 +140,30 @@ func (q *Queries) DeleteCostAllocations(ctx context.Context, costID string) (int
 	return result.RowsAffected(), nil
 }
 
+const deleteCostsByBaselineId = `-- name: DeleteCostsByBaselineId :execrows
+DELETE FROM costs WHERE baseline_id = $1
+`
+
+func (q *Queries) DeleteCostsByBaselineId(ctx context.Context, baselineID string) (int64, error) {
+	result, err := q.db.Exec(ctx, deleteCostsByBaselineId, baselineID)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
+
+const deteleCostAllocationsByBaselineId = `-- name: DeteleCostAllocationsByBaselineId :execrows
+DELETE FROM cost_allocations WHERE cost_id IN (SELECT cost_id FROM costs WHERE baseline_id = $1)
+`
+
+func (q *Queries) DeteleCostAllocationsByBaselineId(ctx context.Context, baselineID string) (int64, error) {
+	result, err := q.db.Exec(ctx, deteleCostAllocationsByBaselineId, baselineID)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
+
 const findCostAllocationsByCostId = `-- name: FindCostAllocationsByCostId :many
 SELECT cost_allocation_id, cost_id, allocation_date, amount, created_at, updated_at
 FROM cost_allocations
