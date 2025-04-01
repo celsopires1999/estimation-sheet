@@ -1,0 +1,19 @@
+FROM golang:1.24.2-bullseye
+
+RUN curl -s https://packagecloud.io/install/repositories/golang-migrate/migrate/script.deb.sh | bash 
+
+RUN apt update 
+RUN apt install -y migrate gpg gnupg gpg-agent socat 
+
+RUN useradd -m -u 1000 dev
+
+USER dev
+
+WORKDIR /home/dev/app
+
+RUN go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+RUN go install github.com/air-verse/air@latest
+
+EXPOSE 9000
+
+CMD [ "tail", "-f", "/dev/null" ]

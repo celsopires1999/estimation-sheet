@@ -9,21 +9,8 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "/workspaces/estimation-sheet/cmd/estimation/main.go",
-            "args": [
-                "--dir",
-                ".",
-                "--dbfilename",
-                "dump.rdb"
-            ],
-            "cwd": "/workspaces/estimation-sheet"
+            "program": "/home/dev/app/cmd/estimation/main.go",
+             "cwd": "/home/dev/app"
         }
     ]
 }
-// "args": [
-//     "--port",
-//     "6380",
-//     "--replicaof",
-//     "localhost",
-//     "6379"
-// ]
